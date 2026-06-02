@@ -28,12 +28,12 @@ public class VotingClientApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        TextField nicknameField = new TextField("Alice");
+        TextField nicknameField = new TextField("Алиса");
         TextField serverHostField = new TextField("127.0.0.1");
         TextField serverPortField = new TextField("7000");
         TextField proxyHostField = new TextField("127.0.0.1");
         TextField proxyPortField = new TextField("7001");
-        TextField candidateField = new TextField("Bob");
+        TextField candidateField = new TextField("Боб");
 
         ComboBox<ProtectionLevel> levelBox = new ComboBox<>(FXCollections.observableArrayList(ProtectionLevel.values()));
         levelBox.getSelectionModel().select(ProtectionLevel.LEVEL_0);
@@ -42,10 +42,10 @@ public class VotingClientApp extends Application {
         logArea.setEditable(false);
         logArea.setWrapText(true);
 
-        Button registerButton = new Button("Register");
-        Button nominateButton = new Button("Nominate");
-        Button voteButton = new Button("Vote");
-        Button resultsButton = new Button("Results");
+        Button registerButton = new Button("Зарегистрироваться");
+        Button nominateButton = new Button("Выдвинуть");
+        Button voteButton = new Button("Голосовать");
+        Button resultsButton = new Button("Результаты");
 
         registerButton.setOnAction(event -> {
             try {
@@ -57,26 +57,26 @@ public class VotingClientApp extends Application {
                         Integer.parseInt(proxyPortField.getText().trim()),
                         levelBox.getValue()
                 );
-                append(logArea, "REGISTER -> " + response.message());
+                append(logArea, "Регистрация -> " + response.message());
             } catch (IOException | NumberFormatException exception) {
-                append(logArea, "Register failed: " + exception.getMessage());
+                append(logArea, "Регистрация не удалась: " + exception.getMessage());
             }
         });
 
-        nominateButton.setOnAction(event -> execute(logArea, "NOMINATE", () -> session.nominate(candidateField.getText().trim())));
-        voteButton.setOnAction(event -> execute(logArea, "VOTE", () -> session.vote(candidateField.getText().trim())));
-        resultsButton.setOnAction(event -> execute(logArea, "RESULTS", session::results));
+        nominateButton.setOnAction(event -> execute(logArea, "Выдвижение", () -> session.nominate(candidateField.getText().trim())));
+        voteButton.setOnAction(event -> execute(logArea, "Голосование", () -> session.vote(candidateField.getText().trim())));
+        resultsButton.setOnAction(event -> execute(logArea, "Результаты", session::results));
 
         GridPane form = new GridPane();
         form.setHgap(10);
         form.setVgap(10);
-        form.addRow(0, new Label("Nickname"), nicknameField);
-        form.addRow(1, new Label("Server host"), serverHostField);
-        form.addRow(2, new Label("Server port"), serverPortField);
-        form.addRow(3, new Label("Proxy host"), proxyHostField);
-        form.addRow(4, new Label("Proxy port"), proxyPortField);
-        form.addRow(5, new Label("Protection level"), levelBox);
-        form.addRow(6, new Label("Candidate"), candidateField);
+        form.addRow(0, new Label("Имя участника"), nicknameField);
+        form.addRow(1, new Label("Хост сервера"), serverHostField);
+        form.addRow(2, new Label("Порт сервера"), serverPortField);
+        form.addRow(3, new Label("Хост прокси"), proxyHostField);
+        form.addRow(4, new Label("Порт прокси"), proxyPortField);
+        form.addRow(5, new Label("Уровень защиты"), levelBox);
+        form.addRow(6, new Label("Кандидат"), candidateField);
 
         VBox root = new VBox(10,
                 form,
@@ -84,14 +84,14 @@ public class VotingClientApp extends Application {
                 nominateButton,
                 voteButton,
                 resultsButton,
-                new Label("Client log"),
+                new Label("Журнал клиента"),
                 logArea
         );
         root.setPadding(new Insets(16));
         VBox.setVgrow(logArea, Priority.ALWAYS);
 
         Scene scene = new Scene(root, 760, 600);
-        stage.setTitle("Lab 9 - Anonymous Voting");
+        stage.setTitle("Лаба 9 - анонимное голосование");
         stage.setScene(scene);
         stage.show();
     }
@@ -107,7 +107,7 @@ public class VotingClientApp extends Application {
             ProtocolResponse response = supplier.get();
             append(logArea, title + " -> " + response.message());
         } catch (IOException exception) {
-            append(logArea, title + " failed: " + exception.getMessage());
+            append(logArea, title + " не удалось выполнить: " + exception.getMessage());
         }
     }
 

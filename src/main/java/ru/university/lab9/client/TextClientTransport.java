@@ -32,7 +32,7 @@ public class TextClientTransport implements ClientTransport {
         writer.println(request.command() + "|" + request.argument());
         String response = reader.readLine();
         if (response == null) {
-            throw new IOException("Server closed the connection.");
+            throw new IOException("Сервер закрыл соединение.");
         }
         String[] parts = response.split("\\|", 2);
         boolean success = "OK".equalsIgnoreCase(parts[0]);

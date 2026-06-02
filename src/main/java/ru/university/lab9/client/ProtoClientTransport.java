@@ -29,7 +29,7 @@ public class ProtoClientTransport implements ClientTransport {
         ProtoStructCodec.writeRequest(outputStream, request);
         ProtocolResponse response = ProtoStructCodec.readResponse(inputStream);
         if (response == null) {
-            throw new IOException("Server closed the connection.");
+            throw new IOException("Сервер закрыл соединение.");
         }
         return response;
     }

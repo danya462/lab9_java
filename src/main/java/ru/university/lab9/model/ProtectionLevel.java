@@ -1,10 +1,10 @@
 package ru.university.lab9.model;
 
 public enum ProtectionLevel {
-    LEVEL_0("0 - direct plain TCP", false, false),
-    LEVEL_1("1 - proxy", true, false),
-    LEVEL_2("2 - ProtoBuf tunnel", false, true),
-    LEVEL_3("3 - proxy + ProtoBuf", true, true);
+    LEVEL_0("0 - прямое текстовое TCP", false, false),
+    LEVEL_1("1 - через прокси", true, false),
+    LEVEL_2("2 - ProtoBuf-туннель", false, true),
+    LEVEL_3("3 - прокси + ProtoBuf", true, true);
 
     private final String title;
     private final boolean useProxy;

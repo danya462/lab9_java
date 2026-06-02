@@ -55,7 +55,7 @@ public class VotingClientSession implements AutoCloseable {
 
     private void ensureConnected() throws IOException {
         if (transport == null) {
-            throw new IOException("Register first.");
+            throw new IOException("Сначала зарегистрируйтесь.");
         }
     }
 }

@@ -38,7 +38,7 @@ public class AnonymousVotingServer implements AutoCloseable {
         }
         running = true;
         serverSocket = new ServerSocket(port);
-        System.out.println("Voting server started on port " + serverSocket.getLocalPort());
+        System.out.println("Сервер голосования запущен на порту " + serverSocket.getLocalPort());
         try {
             while (running) {
                 Socket socket = serverSocket.accept();
@@ -90,12 +90,12 @@ public class AnonymousVotingServer implements AutoCloseable {
                     case "NOMINATE" -> response = votingService.nominate(currentUser, request.argument());
                     case "VOTE" -> response = votingService.vote(currentUser, request.argument());
                     case "RESULTS" -> response = votingService.results();
-                    default -> response = new ProtocolResponse(false, "Unknown command: " + request.command());
+                    default -> response = new ProtocolResponse(false, "Неизвестная команда: " + request.command());
                 }
                 connection.writeResponse(response);
             }
         } catch (IOException exception) {
-            System.out.println("Client connection closed: " + exception.getMessage());
+            System.out.println("Соединение с клиентом закрыто: " + exception.getMessage());
         }
     }
 

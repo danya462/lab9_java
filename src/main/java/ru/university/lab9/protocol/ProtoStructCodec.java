@@ -60,13 +60,13 @@ public final class ProtoStructCodec {
             int length = inputStream.readInt();
             byte[] bytes = inputStream.readNBytes(length);
             if (bytes.length < length) {
-                throw new EOFException("Unexpected end of ProtoBuf frame.");
+                throw new EOFException("Неожиданный конец ProtoBuf-кадра.");
             }
             return Struct.parseFrom(bytes);
         } catch (EOFException exception) {
             return null;
         } catch (InvalidProtocolBufferException exception) {
-            throw new IOException("Invalid ProtoBuf payload", exception);
+            throw new IOException("Некорректная ProtoBuf-нагрузка", exception);
         }
     }
 

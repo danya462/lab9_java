@@ -30,7 +30,7 @@ public class SimpleProxyServer implements AutoCloseable {
         running = true;
         serverSocket = new ServerSocket(listenPort);
         try {
-            System.out.println("Proxy server started on port " + serverSocket.getLocalPort()
+            System.out.println("Прокси-сервер запущен на порту " + serverSocket.getLocalPort()
                     + " -> " + targetHost + ":" + targetPort);
             while (running) {
                 Socket client = serverSocket.accept();
@@ -69,7 +69,7 @@ public class SimpleProxyServer implements AutoCloseable {
             executor.submit(() -> pipe(clientInput, serverOutput));
             pipe(serverInput, clientOutput);
         } catch (IOException exception) {
-            System.out.println("Proxy connection closed: " + exception.getMessage());
+            System.out.println("Прокси-соединение закрыто: " + exception.getMessage());
         }
     }
 

@@ -17,55 +17,55 @@ public class AnonymousVotingService {
     public synchronized ProtocolResponse register(String nickname) {
         String normalized = normalize(nickname);
         if (normalized == null) {
-            return new ProtocolResponse(false, "Nickname is required.");
+            return new ProtocolResponse(false, "Нужно указать имя участника.");
         }
         boolean added = participants.add(normalized);
         return new ProtocolResponse(true, added
-                ? normalized + " registered."
-                : normalized + " already registered.");
+                ? normalized + " зарегистрирован."
+                : normalized + " уже зарегистрирован.");
     }
 
     public synchronized ProtocolResponse nominate(String actor, String candidate) {
         String normalizedActor = normalize(actor);
         String normalizedCandidate = normalize(candidate);
         if (normalizedActor == null || normalizedCandidate == null) {
-            return new ProtocolResponse(false, "Actor and candidate are required.");
+            return new ProtocolResponse(false, "Нужно указать участника и кандидата.");
         }
         if (!participants.contains(normalizedActor)) {
-            return new ProtocolResponse(false, "Register first.");
+            return new ProtocolResponse(false, "Сначала зарегистрируйтесь.");
         }
         if (!participants.contains(normalizedCandidate)) {
-            return new ProtocolResponse(false, "Candidate is not registered.");
+            return new ProtocolResponse(false, "Кандидат не зарегистрирован.");
         }
 
         candidates.add(normalizedCandidate);
         voteCounts.putIfAbsent(normalizedCandidate, 0);
-        return new ProtocolResponse(true, normalizedCandidate + " added to the ballot.");
+        return new ProtocolResponse(true, normalizedCandidate + " добавлен в бюллетень.");
     }
 
     public synchronized ProtocolResponse vote(String actor, String candidate) {
         String normalizedActor = normalize(actor);
         String normalizedCandidate = normalize(candidate);
         if (normalizedActor == null || normalizedCandidate == null) {
-            return new ProtocolResponse(false, "Actor and candidate are required.");
+            return new ProtocolResponse(false, "Нужно указать участника и кандидата.");
         }
         if (!participants.contains(normalizedActor)) {
-            return new ProtocolResponse(false, "Register first.");
+            return new ProtocolResponse(false, "Сначала зарегистрируйтесь.");
         }
         if (!candidates.contains(normalizedCandidate)) {
-            return new ProtocolResponse(false, "Candidate is not nominated.");
+            return new ProtocolResponse(false, "Кандидат не выдвинут.");
         }
         if (!voters.add(normalizedActor)) {
-            return new ProtocolResponse(false, "This user has already voted.");
+            return new ProtocolResponse(false, "Этот участник уже голосовал.");
         }
 
         voteCounts.merge(normalizedCandidate, 1, Integer::sum);
-        return new ProtocolResponse(true, "Vote accepted anonymously.");
+        return new ProtocolResponse(true, "Голос принят анонимно.");
     }
 
     public synchronized ProtocolResponse results() {
         if (voteCounts.isEmpty()) {
-            return new ProtocolResponse(true, "No votes yet.");
+            return new ProtocolResponse(true, "Голосов пока нет.");
         }
 
         Map<String, Integer> sorted = voteCounts.entrySet().stream()
